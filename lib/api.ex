@@ -34,11 +34,12 @@ defmodule Api do
 
   defp mostra_resultado_character({ :error, msg}), do: IO.inspect("Ocorreu um erro: #{msg}")
   defp mostra_resultado_character({ :lista, results}) do
-    IO.puts "CAIU AQUI CARAMBA"
     Enum.each(results, fn x ->
-      IO.puts("Nome: #{x["\\\"name\"\\"]}")
+      IO.puts("Nome: #{x["name"]}")
+      IO.puts("Sexo: #{x["gender"]}" )
+      IO.puts("Especie: #{x["species"]}" )
+      IO.puts("-----------------------" )
     end)
-    IO.inspect("Results: #{inspect(results)}")
   end
   defp mostra_resultado_character({ :ok, data}) do
     IO.puts "Nome: #{data["nome"]}"
