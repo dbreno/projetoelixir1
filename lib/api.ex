@@ -12,14 +12,17 @@ defmodule Api do
       1 ->
         fetch_episode_info()
         |> mostra_resultado_episodio()
+        main()
 
       2 ->
         fetch_character_info()
         |> mostra_resultado_character()
+        main()
 
       3 ->
         fetch_location_info()
         |> mostra_resultado()
+        main()
 
       _ ->
         IO.puts "Comando inválido. Use 'episodio', 'personagem', ou 'local' seguido do ID."
@@ -38,7 +41,7 @@ defmodule Api do
       IO.puts("Nome: #{x["name"]}")
       IO.puts("Sexo: #{x["gender"]}" )
       IO.puts("Especie: #{x["species"]}" )
-      IO.puts("-----------------------" )
+      IO.puts("***********************" )
     end)
   end
   defp mostra_resultado_character({ :ok, data}) do
@@ -106,6 +109,7 @@ defmodule Api do
 
     IO.puts "1. Pesquisar personagem por ID."
     IO.puts "2. Listar personagens."
+    IO.puts "3. Pesquisar personagem por nome."
     opcao = IO.gets("> ") |> String.trim() |> String.to_integer()
 
     case opcao do
@@ -150,6 +154,23 @@ defmodule Api do
             case Poison.decode(req.body) do
               { :ok, personagens} ->
                 { :lista, personagens["results"] }
+            end
+        end
+      3 ->
+        IO.puts "Digite o nome do personagem: "
+        nome = IO.gets("> ") |> String.trim()
+        url = url <> "/?name=#{nome}"
+        case HTTPoison.get(url) do
+          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+            case Poison.decode(body) do
+              {:ok, personagens} ->
+                {:lista, %{
+                  "nome" => personagens["name"],
+                  "status" => personagens["status"],
+                  "especie" => personagens["species"],
+                  "tipo" => personagens["type"],
+                  "genero" => personagens
+                }}
             end
         end
     end
