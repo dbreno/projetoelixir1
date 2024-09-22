@@ -1,15 +1,18 @@
-"""
+defmodule Api do
+@moduledoc false
+
+@doc"""
+
 FUNÇÃO MAIN: ponto de partida do programa
 
 -> Ela imprime uma arte, seguida de um menu principal com opções para encerrar o programa
    ou pesquisar episódios, personagens e locais.
 
 -> Após a exibição da arte e das opções chama a função loop/0 para iniciar
-
 """
 
 
-defmodule Api do
+
   def main() do
     IO.puts "
         ==========================================================================================
@@ -50,18 +53,18 @@ defmodule Api do
     loop()
   end
 
-  """
-  FUNÇÃO LOOP/0:
 
-  -> É a função que mantém o programa em execução até o usuário decidir encerrar
+  # FUNÇÃO LOOP/0:
 
-  -> Exibe as opções de encerrar o programa ou buscar por episódios, personagens ou locais
+  # -> É a função que mantém o programa em execução até o usuário decidir encerrar
 
-  -> Dependendo da escolha do usuário, ela invoca as funções de busca adequadas:
-    fetch_episode_info/0, fetch_character_info/0, ou fetch_location_info/0.
+  # -> Exibe as opções de encerrar o programa ou buscar por episódios, personagens ou locais
 
-  -> Após cada busca, chama funções para exibir os resultados e, em seguida, reinicia o loop.
-  """
+  # -> Dependendo da escolha do usuário, ela invoca as funções de busca adequadas:
+  #  fetch_episode_info/0, fetch_character_info/0, ou fetch_location_info/0.
+
+  # -> Após cada busca, chama funções para exibir os resultados e, em seguida, reinicia o loop.
+
 
   defp loop() do
       IO.puts("[0]. Encerrar: ")
@@ -92,17 +95,15 @@ defmodule Api do
       end
   end
 
-  """
-  FUNÇÃO MOSTRA_RESULTADO/1:
 
-  -> Esta função exibe o resultado da busca por locais.
+  # FUNÇÃO MOSTRA_RESULTADO/1:
 
-  -> Recebe uma tupla com {:error, msg} ou {:ok, data}, e imprime a mensagem de
-    erro ou os detalhes do local (id, nome, tipo e dimensão).
+  # -> Esta função exibe o resultado da busca por locais.
 
-  -> Há também uma variação que imprime uma lista de locais com seus atributos (nome, tipo e dimensão).
+  # -> Recebe uma tupla com {:error, msg} ou {:ok, data}, e imprime a mensagem de
+    # erro ou os detalhes do local (id, nome, tipo e dimensão).
 
-  """
+  # -> Há também uma variação que imprime uma lista de locais com seus atributos (nome, tipo e dimensão).
 
   defp mostra_resultado({:error, msg}), do: IO.puts "Ocorreu um erro: #{msg}"
   defp mostra_resultado({:ok, data}) do
@@ -131,17 +132,14 @@ defmodule Api do
     end
   end
 
-  """
-  FUNÇÃO MOSTRA_RESULTADO_EPISODIO/1:
+  # FUNÇÃO MOSTRA_RESULTADO_EPISODIO/1:
 
-  -> Similar à mostra_resultado/1, porém exibe os detalhes de um episódio.
+  # -> Similar à mostra_resultado/1, porém exibe os detalhes de um episódio.
 
-  -> Recebe a tupla de resultado e imprime informações do episódio, como nome,
-  data de exibição e a lista de personagens associados.
+  # -> Recebe a tupla de resultado e imprime informações do episódio, como nome,
+  # data de exibição e a lista de personagens associados.
 
-  -> Outra variação imprime uma lista de episódios.
-
-  """
+  # -> Outra variação imprime uma lista de episódios.
 
   defp mostra_resultado_episodio({ :error, msg }), do: IO.puts "Ocorreu um erro: #{msg}"
   defp mostra_resultado_episodio({ :ok, data }) do
@@ -165,14 +163,11 @@ defmodule Api do
     end
   end
 
-  """
-  FUNÇÃO PRINTA_LISTA_PERSONAGENS/1 E PRINTA_LISTA_EPISODIOS/1:
+  # FUNÇÃO PRINTA_LISTA_PERSONAGENS/1 E PRINTA_LISTA_EPISODIOS/1:
 
-  -> Essas funções são auxiliares para exibir listas de personagens e episódios.
+  # -> Essas funções são auxiliares para exibir listas de personagens e episódios.
 
-  -> Elas fazem uma recursão na lista recebida, imprimindo cada elemento.
-
-  """
+  # -> Elas fazem uma recursão na lista recebida, imprimindo cada elemento.
 
   defp printa_lista_personagens(msg) do
     Enum.each(msg, fn x ->
@@ -189,17 +184,14 @@ defmodule Api do
     end)
   end
 
-  """
-  FUNÇÃO MOSTRA_RESULTADO_CHARACTER/1:
+  # FUNÇÃO MOSTRA_RESULTADO_CHARACTER/1:
 
-  -> Esta função exibe o resultado da busca por personagens.
+  # -> Esta função exibe o resultado da busca por personagens.
 
-  -> Assim como nas outras funções, ela lida com tuplas
-    {:error, msg} ou {:ok, data} e imprime as informações do personagem.
+  # -> Assim como nas outras funções, ela lida com tuplas
+    # {:error, msg} ou {:ok, data} e imprime as informações do personagem.
 
-  -> Existe também uma variação para imprimir uma lista de personagens.
-
-  """
+  # -> Existe também uma variação para imprimir uma lista de personagens.
 
   defp mostra_resultado_character({ :error, msg}), do: IO.inspect("Ocorreu um erro: #{msg}")
   defp mostra_resultado_character({ :lista, results, next_page}) do
@@ -226,19 +218,18 @@ defmodule Api do
     IO.puts "Sexo: #{data["genero"]}"
   end
 
-  """
-  FUNÇÃO FETCH_EPISODE_INFO/0:
 
-  -> Esta função realiza a busca por informações de episódios na API de Rick and Morty.
+  # FUNÇÃO FETCH_EPISODE_INFO/0:
 
-  -> O usuário pode escolher pesquisar um episódio por ID ou listar todos os episódios.
+  # -> Esta função realiza a busca por informações de episódios na API de Rick and Morty.
 
-  -> Para uma busca por ID, realiza uma requisição HTTP e, se a resposta for bem-sucedida,
-  extrai as informações do episódio e personagens associados.
+  # -> O usuário pode escolher pesquisar um episódio por ID ou listar todos os episódios.
 
-  -> Também trata erros de conexão e falhas na decodificação do JSON.
+  # -> Para uma busca por ID, realiza uma requisição HTTP e, se a resposta for bem-sucedida,
+  # extrai as informações do episódio e personagens associados.
 
-  """
+  # -> Também trata erros de conexão e falhas na decodificação do JSON.
+
 
   # Função que busca os personagens de um episódio
   defp fetch_episode_info() do
@@ -340,16 +331,14 @@ defmodule Api do
     end
   end
 
-  """
-  FUNÇÃO FETCH_CHARACTER_INFO/0:
 
-  -> Função similar à de episódios, mas para personagens.
+  # FUNÇÃO FETCH_CHARACTER_INFO/0:
 
-  -> O usuário pode buscar um personagem pelo ID ou listar todos os personagens.
+  # -> Função similar à de episódios, mas para personagens.
 
-  -> Faz uma requisição HTTP para a API, decodifica o JSON e retorna informações detalhadas do personagem.
+  # -> O usuário pode buscar um personagem pelo ID ou listar todos os personagens.
 
-  """
+  # -> Faz uma requisição HTTP para a API, decodifica o JSON e retorna informações detalhadas do personagem.
 
   # Função que busca informações de um personagem
   defp fetch_character_info() do
@@ -515,16 +504,13 @@ defmodule Api do
     end
   end
 
-  """
-  FUNÇÃO FETCH_CHARACTER_INFO/0:
+  # FUNÇÃO FETCH_CHARACTER_INFO/0:
 
-  -> Realiza buscas por informações de locais (dimensões) do universo Rick and Morty.
+  # -> Realiza buscas por informações de locais (dimensões) do universo Rick and Morty.
 
-  -> O usuário pode buscar um local por ID ou listar todos os locais.
+  # -> O usuário pode buscar um local por ID ou listar todos os locais.
 
-  -> Faz a requisição HTTP e trata os resultados como nas funções anteriores.
-
-  """
+  # -> Faz a requisição HTTP e trata os resultados como nas funções anteriores.
 
   # Função que busca informações de um local, sem exibir os residentes
   defp fetch_location_info() do
@@ -583,12 +569,10 @@ defmodule Api do
     end
   end
 
-  """
-  FUNÇÃO FETCH_CHARACTER_BY_URL/1:
-  -> Função auxiliar que busca informações de um personagem a partir de sua URL.
-  -> Usada, por exemplo, quando se busca um episódio e é necessário pegar os personagens
-  do mesmo, fazendo requisições adicionais para cada URL associada.
-  """
+  # FUNÇÃO FETCH_CHARACTER_BY_URL/1:
+  # -> Função auxiliar que busca informações de um personagem a partir de sua URL.
+  # -> Usada, por exemplo, quando se busca um episódio e é necessário pegar os personagens
+  # do mesmo, fazendo requisições adicionais para cada URL associada.
 
   # Funções auxiliares para buscar informações a partir de URLs
 
